@@ -1,3 +1,29 @@
+# [1.7.0](https://github.com/databk/rustdesk-console-web/compare/1.6.1...1.7.0) (2026-10-18)
+
+
+### Bug Fixes
+
+* align frontend API types with backend definitions ([#348](https://github.com/databk/rustdesk-console-web/issues/348)) ([23acde8](https://github.com/databk/rustdesk-console-web/commit/23acde89810a2b7639a9e46b67731252652c9a9e))
+* **ci:** use App token for release push ([#354](https://github.com/databk/rustdesk-console-web/issues/354)) ([42ba610](https://github.com/databk/rustdesk-console-web/commit/42ba6101d75d0714648f5a869a4a83bdca0252ae))
+* **dashboard:** use dashboard.view permission, add device name search and CSV export ([#357](https://github.com/databk/rustdesk-console-web/issues/357)) ([3752ae2](https://github.com/databk/rustdesk-console-web/commit/3752ae29c8ddedaef1aa667e17f2ba33cf22bdac)), closes [#415](https://github.com/databk/rustdesk-console-web/issues/415)
+* **login:** render alternative login methods below the Login button ([#369](https://github.com/databk/rustdesk-console-web/issues/369)) ([60e0b29](https://github.com/databk/rustdesk-console-web/commit/60e0b29e0e61e18ea9a8cc4f62025fe9f51710f2))
+
+
+### Features
+
+* add hbbs and hbbr management dashboard ([#353](https://github.com/databk/rustdesk-console-web/issues/353)) ([1191035](https://github.com/databk/rustdesk-console-web/commit/11910356a94b4c40683ebaa2b73a07048465a32f))
+* add one-click coordinated system updates to the WebUI ([#352](https://github.com/databk/rustdesk-console-web/issues/352)) ([290dc24](https://github.com/databk/rustdesk-console-web/commit/290dc240bddc079e81091976f83c7a64b0933642))
+* **login:** add forgot-password flow with reset page ([#371](https://github.com/databk/rustdesk-console-web/issues/371)) ([36db500](https://github.com/databk/rustdesk-console-web/commit/36db5008602795e7e4e6e7405c5ee0e239055037))
+* **settings:** add web client and server management settings pages ([#373](https://github.com/databk/rustdesk-console-web/issues/373)) ([6965ed2](https://github.com/databk/rustdesk-console-web/commit/6965ed2dd43db67ee3fbd057de23ae3fc649d50c))
+* **web-client:** add an experimental browser remote control client ([#351](https://github.com/databk/rustdesk-console-web/issues/351)) ([c9f0e89](https://github.com/databk/rustdesk-console-web/commit/c9f0e89028c64d9b68015c61a30b60ebbde7082d))
+
+
+### Reverts
+
+* Revert "chore(deps-dev): bump @umijs/max from 4.7.22 to 4.7.23 (#363)" (#364) ([3c2c41f](https://github.com/databk/rustdesk-console-web/commit/3c2c41f86cc66f229fbf01f439c7f68bf78c6e5a)), closes [#363](https://github.com/databk/rustdesk-console-web/issues/363) [#364](https://github.com/databk/rustdesk-console-web/issues/364)
+
+
+
 ## [1.6.1](https://github.com/databk/rustdesk-console-web/compare/1.6.0...1.6.1) (2026-10-01)
 
 
@@ -101,28 +127,6 @@
 * **settings:** support expanded general settings contract ([#249](https://github.com/databk/rustdesk-console-web/issues/249)) ([53bdc5a](https://github.com/databk/rustdesk-console-web/commit/53bdc5aa7e323bed35218606c6f55e8380c67414))
 * **settings:** use public /settings/frontend for bootstrap config ([#250](https://github.com/databk/rustdesk-console-web/issues/250)) ([b3dd7b2](https://github.com/databk/rustdesk-console-web/commit/b3dd7b20adb6c81f6062c0b4dd9224984c859670))
 * **users:** add user_group_name, strategy_name and is_admin query params ([#238](https://github.com/databk/rustdesk-console-web/issues/238)) ([3f6380c](https://github.com/databk/rustdesk-console-web/commit/3f6380c619a600c25b3fdd73f68b70af122e88ed))
-
-
-
-# [1.4.0](https://github.com/databk/rustdesk-console-web/compare/1.3.0...1.4.0) (2026-07-22)
-
-
-### Features
-
-* add columns state persistence to all ProTable instances ([#190](https://github.com/databk/rustdesk-console-web/issues/190)) ([8013358](https://github.com/databk/rustdesk-console-web/commit/8013358a0859e43812f6120ea56310aee737a549))
-* add console general settings and configurable watermark ([#197](https://github.com/databk/rustdesk-console-web/issues/197)) ([56839cb](https://github.com/databk/rustdesk-console-web/commit/56839cb06e07b270b9dbe9edcfbfaa2aeebd1b50))
-* add display_name field support for users ([#195](https://github.com/databk/rustdesk-console-web/issues/195)) ([440d319](https://github.com/databk/rustdesk-console-web/commit/440d31971f1274f493034ba295a3be6b1d7a54e2))
-* add linux/arm64 Docker image build support ([#196](https://github.com/databk/rustdesk-console-web/issues/196)) ([16671bc](https://github.com/databk/rustdesk-console-web/commit/16671bc873ba09f9560c082fa40ac26c6ee0dc07))
-* add user_group_guid field to user update ([#203](https://github.com/databk/rustdesk-console-web/issues/203)) ([0515620](https://github.com/databk/rustdesk-console-web/commit/05156206d9f9738e39bc59767f804e2499d72ae3))
-* complete user-group management workflows ([#188](https://github.com/databk/rustdesk-console-web/issues/188)) ([7443ce1](https://github.com/databk/rustdesk-console-web/commit/7443ce1e875a179a38f30cd365ee93d67bc498eb))
-* extend address book sharing to support individual users and everyone ([#200](https://github.com/databk/rustdesk-console-web/issues/200)) ([13a059e](https://github.com/databk/rustdesk-console-web/commit/13a059e5118d35cb1922a13e37929af0a9c44379))
-* implement drag sort for OIDC providers ([#199](https://github.com/databk/rustdesk-console-web/issues/199)) ([3604d41](https://github.com/databk/rustdesk-console-web/commit/3604d41b711e0a419e19dc0f00a83c05333e9aec))
-* manage custom address books from the personal page ([#189](https://github.com/databk/rustdesk-console-web/issues/189)) ([901a24c](https://github.com/databk/rustdesk-console-web/commit/901a24c7f724024b5251619136966599b7cb7918))
-
-
-### Reverts
-
-* remove site name functionality from commit 56839cb ([#202](https://github.com/databk/rustdesk-console-web/issues/202)) ([8fc55cc](https://github.com/databk/rustdesk-console-web/commit/8fc55cc8af04be0650a2e3ef1e66722f836fe796))
 
 
 
