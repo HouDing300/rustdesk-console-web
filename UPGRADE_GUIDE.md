@@ -263,7 +263,40 @@ git push --force-with-lease origin feat/device-last-ip-and-account
 
 ---
 
-## 8. 命令速查
+## 8. 验证环境部署记录（192.168.51.91，Rocky Linux 9.8）
+
+官方推荐 Docker Compose，但该机器 **Docker Hub 不可达**（`registry-1.docker.io` 连接超时），
+且 compose 里的镜像是官方预构建镜像（不含定制改动），所以采用**原生部署**：
+
+| 项 | 位置 / 值 |
+| --- | --- |
+| 后端源码 | `/opt/rustdesk-console`（定制分支 tarball 解压） |
+| 前端源码 | `/opt/rustdesk-console-web`，构建产物 `dist/` |
+| Node | `/opt/node22`（v22.22.2，软链到 `/usr/local/bin`） |
+| 后端服务 | systemd `rustdesk-console`，`node dist/main.js`，监听 3000 |
+| web | nginx（`/etc/nginx/conf.d/rustdesk-console.conf`），静态 + `/api/` 反代到 3000 |
+| 数据库 | sqlite，`/opt/rustdesk-console/data/rustdesk-console.db` |
+| 环境变量 | `/opt/rustdesk-console/.env`（`PORT` / `JWT_SECRET` / `ADMIN_PASSWORD` / `DB_TYPE=sqlite` / `DATA_DIR`） |
+| 访问地址 | http://192.168.51.91/ |
+
+注意点（下次重装/迁移时有用）：
+
+- 默认管理员用户名是 **`databk`**（不是 admin），密码取自 `ADMIN_PASSWORD`。
+- 首次启动会报 `Database migrations are pending`，先跑一次：
+  `cd /opt/rustdesk-console && node dist/main.js migrate`，再 `systemctl restart rustdesk-console`。
+- `npm install` 需要编译 `sqlite3` → 必须先装 `gcc gcc-c++ make python3`。
+- SELinux 为 Enforcing：需要 `setsebool -P httpd_can_network_connect 1`（nginx 反代）
+  和 `chcon -R -t httpd_sys_content_t <dist>`；防火墙需放行 http。
+- 该机器 `git clone` 走 443 会超时，改用 codeload 下载 tarball：
+  `https://codeload.github.com/HouDing300/<repo>/tar.gz/refs/heads/feat/device-last-ip-and-account`
+- 快照恢复后系统时钟会回退（曾落后 48 天），导致 dnf 报证书未生效；
+  先 `hwclock --hctosys` 再装包。
+
+验证结果（2026-10-19）：模拟心跳带 `X-Forwarded-For: 203.0.113.7`，
+`/api/devices` 与 `/api/peers` 均返回 `info.ip=203.0.113.7`；
+`device_name` / `device_username` / `ip` 三个搜索参数过滤均正确。
+
+## 9. 命令速查
 
 ```bash
 git remote add upstream https://github.com/databk/rustdesk-console.git        # 后端
