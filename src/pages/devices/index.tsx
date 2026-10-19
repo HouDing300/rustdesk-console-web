@@ -311,11 +311,13 @@ const DeviceList: React.FC<DeviceListProps> = ({
             const result = await getAdminDeviceList({
               current,
               pageSize,
-              id: params.id as string | undefined,
-              status: params.status as string | undefined,
-              is_online: params.is_online as string | undefined,
-              device_name: params.device_name as string | undefined,
-              user_name: params.user_name as string | undefined,
+            id: params.id as string | undefined,
+            status: params.status as string | undefined,
+            is_online: params.is_online as string | undefined,
+            device_name: params.device_name as string | undefined,
+            device_username: params.device_username as string | undefined,
+            ip: params.ip as string | undefined,
+            user_name: params.user_name as string | undefined,
               os: params.os as string | undefined,
               device_group_name: params.device_group_name_search as
                 | string
@@ -340,6 +342,9 @@ const DeviceList: React.FC<DeviceListProps> = ({
           const headers = [
             'ID',
             'Device',
+            'Device Name',
+            'Login Account',
+            'Last IP',
             'User',
             'Group',
             'Status',
@@ -355,6 +360,9 @@ const DeviceList: React.FC<DeviceListProps> = ({
             d.info?.username && d.info?.device_name
               ? `${d.info.username}@${d.info.device_name}`
               : d.info?.device_name || d.info?.username || '',
+            d.info?.device_name ?? '',
+            d.info?.username ?? '',
+            d.info?.ip ?? '',
             d.user_name ?? '',
             d.device_group_name ?? '',
             d.status === 1
@@ -467,6 +475,7 @@ const DeviceList: React.FC<DeviceListProps> = ({
           persistenceKey: 'device_list_columns_state',
         }}
         actionRef={actionRef}
+        search={{ defaultCollapsed: false }}
         rowKey="guid"
         rowSelection={
           (deviceGroupGuid && access.isSuperAdmin) ||
@@ -586,6 +595,8 @@ const DeviceList: React.FC<DeviceListProps> = ({
             status: params.status,
             is_online: params.is_online,
             device_name: params.device_name,
+            device_username: params.device_username,
+            ip: params.ip,
             user_name: params.user_name,
             os: params.os,
             device_group_name: params.device_group_name_search,

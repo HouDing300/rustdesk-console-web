@@ -42,6 +42,9 @@ const DeviceSelectTable: React.FC<DeviceSelectTableProps> = ({
           user_name: params.user_name,
           device_group_name: params.device_group_name_search,
           os: params.os,
+          device_name: params.device_name,
+          device_username: params.device_username,
+          ip: params.ip,
         });
         return toTableResult(result);
       }}

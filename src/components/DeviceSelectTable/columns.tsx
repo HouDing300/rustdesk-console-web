@@ -259,11 +259,14 @@ export const getDeviceColumns = (options?: {
     {
       title: (
         <span>
-          <FormattedMessage id="pages.devices.device" defaultMessage="Device" />
+          <FormattedMessage
+            id="pages.devices.deviceName"
+            defaultMessage="Device Name"
+          />
           <Tooltip
             title={intl.formatMessage({
-              id: 'pages.devices.deviceInfo',
-              defaultMessage: 'username@device_name',
+              id: 'pages.devices.deviceNameInfo',
+              defaultMessage: 'Hostname reported by the device',
             })}
           >
             <InfoCircleOutlined style={{ marginLeft: 4 }} />
@@ -279,12 +282,43 @@ export const getDeviceColumns = (options?: {
         }),
       },
       sorter: true,
-      render: (_: unknown, record: API.DeviceItem) => {
-        const username = record.info?.username;
-        const hostname = record.info?.device_name;
-        if (username && hostname) return `${username}@${hostname}`;
-        return hostname || username || '-';
+      render: (_: unknown, record: API.DeviceItem) =>
+        record.info?.device_name || '-',
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.devices.loginAccount"
+          defaultMessage="Login Account"
+        />
+      ),
+      dataIndex: 'device_username',
+      ellipsis: true,
+      fieldProps: {
+        placeholder: intl.formatMessage({
+          id: 'pages.devices.searchLoginAccountPlaceholder',
+          defaultMessage: 'Search by computer account',
+        }),
       },
+      render: (_: unknown, record: API.DeviceItem) =>
+        record.info?.username || '-',
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.devices.lastIp"
+          defaultMessage="Last IP"
+        />
+      ),
+      dataIndex: 'ip',
+      ellipsis: true,
+      fieldProps: {
+        placeholder: intl.formatMessage({
+          id: 'pages.devices.searchLastIpPlaceholder',
+          defaultMessage: 'Search by last connection IP',
+        }),
+      },
+      render: (_: unknown, record: API.DeviceItem) => record.info?.ip || '-',
     },
     {
       title: (

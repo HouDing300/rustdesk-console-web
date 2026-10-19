@@ -366,6 +366,9 @@ declare namespace API {
     status?: string;
     is_online?: string;
     user_name?: string;
+    device_name?: string;
+    device_username?: string;
+    ip?: string;
     device_group_name?: string;
     device_group_guid?: string;
     os?: string;
@@ -378,6 +381,7 @@ declare namespace API {
     device_name?: string;
     user_name?: string;
     device_username?: string;
+    ip?: string;
     os?: string;
     device_group_name?: string;
     device_group_guid?: string;
