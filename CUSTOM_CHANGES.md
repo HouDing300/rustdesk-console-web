@@ -29,6 +29,38 @@ All three are searchable, and the device list search form renders expanded
 | `src/locales/zh-CN/pages.ts` | new `pages.devices.*` labels |
 | `src/locales/en-US/pages.ts` | new `pages.devices.*` labels |
 
+## HTTP method override (workaround for restrictive networks)
+
+Some corporate networks only allow `GET` / `POST` on the path between browser
+and console: a firewall / web-filter / WAF resets `PUT` and `DELETE`
+connections (`net::ERR_CONNECTION_RESET` in DevTools, nothing in the nginx
+access log because the request never arrives). `PATCH` usually passes.
+
+Every write action in this app (role assignment, role/user/device/strategy
+editing and deletion, saving settings, ...) is one of those methods, so the
+whole console appeared broken while `GET` / `POST` worked.
+
+Workaround, in two halves that **must be deployed together**:
+
+1. **Frontend** — `src/requestErrorConfig.ts`: a request interceptor rewrites
+   `PUT` / `PATCH` / `DELETE` into `POST` and adds
+   `X-HTTP-Method-Override: <original method>`.
+   All 54 write call sites go through `@umijs/max`'s `request` (including the
+   `actionRequest` and `webClientRequest` wrappers), so one interceptor covers
+   everything.
+2. **nginx** — `deploy/nginx/00-method-override.conf`: a `map` plus
+   `proxy_method` that restores the real method before proxying to the backend.
+
+Without the nginx half, write requests arrive at the backend as `POST` and
+return 404. See `deploy/nginx/README-method-override.md` for the exact snippet,
+install steps and a verification `curl`.
+
+| File | Change |
+| --- | --- |
+| `src/requestErrorConfig.ts` | request interceptor: `PUT`/`PATCH`/`DELETE` → `POST` + `X-HTTP-Method-Override` |
+| `deploy/nginx/00-method-override.conf` | nginx `map` used to restore the real method |
+| `deploy/nginx/README-method-override.md` | root cause, install steps, verification command |
+
 ## Syncing with upstream without losing these changes
 
 ```bash
@@ -45,3 +77,5 @@ git push --force-with-lease origin feat/device-last-ip-and-account
 ```
 
 Keep `main` as a pure upstream mirror and your work on the feature branch.
+If upstream ever touches `src/requestErrorConfig.ts`, re-apply the interceptor
+after the rebase — the file is small and the change is additive.

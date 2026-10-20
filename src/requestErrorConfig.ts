@@ -122,6 +122,16 @@ export const errorConfig: RequestConfig = {
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      // 兼容只允许 GET/POST 的网络环境：PUT/PATCH/DELETE 统一以 POST 发送，
+      // 由 nginx 依据 X-HTTP-Method-Override 还原成真实方法后再转发给后端。
+      const rawMethod = (config.method || 'GET').toString().toUpperCase();
+      if (rawMethod === 'PUT' || rawMethod === 'PATCH' || rawMethod === 'DELETE') {
+        config.method = 'POST';
+        config.headers = {
+          ...(config.headers || {}),
+          'X-HTTP-Method-Override': rawMethod,
+        } as any;
+      }
       return config;
     },
   ],
